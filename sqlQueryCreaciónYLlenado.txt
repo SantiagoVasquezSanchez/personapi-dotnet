@@ -1,0 +1,88 @@
+-- -----------------------------------------------------
+-- Database Creation
+-- -----------------------------------------------------
+CREATE DATABASE persona_db;
+GO
+USE persona_db;
+GO
+
+-- -----------------------------------------------------
+-- Table `persona`
+-- -----------------------------------------------------
+CREATE TABLE persona (
+  cc INT NOT NULL PRIMARY KEY,
+  nombre VARCHAR(45) NOT NULL,
+  apellido VARCHAR(45) NOT NULL,
+  genero CHAR(1) NOT NULL CHECK (genero IN ('M', 'F')),
+  edad INT NULL
+);
+
+-- -----------------------------------------------------
+-- Table `profesion`
+-- -----------------------------------------------------
+CREATE TABLE profesion (
+  id INT NOT NULL PRIMARY KEY,
+  nom VARCHAR(90) NOT NULL,
+  des TEXT NULL
+);
+
+-- -----------------------------------------------------
+-- Table `estudios`
+-- -----------------------------------------------------
+CREATE TABLE estudios (
+  id_prof INT NOT NULL,
+  cc_per INT NOT NULL,
+  fecha DATE NULL,
+  univer VARCHAR(50) NULL,
+  PRIMARY KEY (id_prof, cc_per),
+  FOREIGN KEY (cc_per) REFERENCES persona (cc),
+  FOREIGN KEY (id_prof) REFERENCES profesion (id)
+);
+
+-- -----------------------------------------------------
+-- Table `telefono`
+-- -----------------------------------------------------
+CREATE TABLE telefono (
+  num VARCHAR(15) NOT NULL PRIMARY KEY,
+  oper VARCHAR(45) NOT NULL,
+  duenio INT NOT NULL,
+  FOREIGN KEY (duenio) REFERENCES persona (cc)
+);
+
+LLenado de tablas 
+
+-- Insertando datos en la tabla persona
+INSERT INTO persona (cc, nombre, apellido, genero, edad)
+VALUES
+    (1, 'Juan', 'Perez', 'M', 30),
+    (2, 'Maria', 'Gomez', 'F', 25),
+    (3, 'Pedro', 'Rodriguez', 'M', 35),
+    (4, 'Ana', 'Martinez', 'F', 28),
+    (5, 'Luis', 'Lopez', 'M', 40);
+
+-- Insertando datos en la tabla profesion
+INSERT INTO profesion (id, nom, des)
+VALUES
+    (1, 'Ingeniero', 'Ingeniero de sistemas'),
+    (2, 'Doctor', 'Médico especializado'),
+    (3, 'Abogado', 'Especialista en derecho'),
+    (4, 'Profesor', 'Profesor de matemáticas'),
+    (5, 'Arquitecto', 'Diseñador de edificios');
+
+-- Insertando datos en la tabla estudios
+INSERT INTO estudios (id_prof, cc_per, fecha, univer)
+VALUES
+    (1, 1, '2010-01-01', 'Universidad Nacional'),
+    (2, 2, '2008-01-01', 'Universidad de Madrid'),
+    (3, 3, '2012-01-01', 'Universidad de Barcelona'),
+    (4, 4, '2009-01-01', 'Universidad Complutense de Madrid'),
+    (5, 5, '2015-01-01', 'Universidad Politécnica de Valencia');
+
+-- Insertando datos en la tabla telefono
+INSERT INTO telefono (num, oper, duenio)
+VALUES
+    ('123456789', 'Movistar', 1),
+    ('987654321', 'Claro', 2),
+    ('456789123', 'T-Mobile', 3),
+    ('789123456', 'AT&T', 4),
+    ('321654987', 'Verizon', 5);
